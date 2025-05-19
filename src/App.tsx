@@ -1,9 +1,7 @@
-// src/App.tsx
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import ProductList from './components/ProductList';
-// убрали { Product as CartProduct } — он не использовался
-import CartModal from './components/CartModel';
+import BasketModal from './components/BasketModel.tsx';
 
 interface Product {
     id: number;
@@ -17,11 +15,8 @@ const App: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
-    // состояние корзины
     const [cart, setCart] = useState<Product[]>([]);
-    // состояние видимости модального окна корзины
-    const [showCart, setShowCart] = useState(false);
+    const [showBasketCart, setShowBasketCart] = useState(false);
 
     useEffect(() => {
         fetch('https://localhost:7074/api/Products')
@@ -38,7 +33,7 @@ const App: React.FC = () => {
         setCart(prev => [...prev, item]);
     };
 
-    const removeFromCart = (id: number) => {
+    const removeFromBasketCart = (id: number) => {
         setCart(prev => {
             const idx = prev.findIndex(item => item.id === id);
             if (idx < 0) return prev;
@@ -53,7 +48,7 @@ const App: React.FC = () => {
             {/* единый вызов Header с обеими пропсами */}
             <Header
                 cartCount={cart.length}
-                onCartClick={() => setShowCart(true)}
+                onCartClick={() => setShowBasketCart(true)}
             />
 
             <main className="container my-4">
@@ -64,11 +59,11 @@ const App: React.FC = () => {
                 )}
             </main>
 
-            <CartModal
-                show={showCart}
-                onHide={() => setShowCart(false)}
+            <BasketModal
+                show={showBasketCart}
+                onHide={() => setShowBasketCart(false)}
                 cart={cart}
-                removeFromCart={removeFromCart}
+                removeFromCart={removeFromBasketCart}
             />
         </>
     );

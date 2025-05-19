@@ -1,4 +1,3 @@
-// src/components/CartModal.tsx
 import React from 'react';
 import { Modal, Button, ListGroup } from 'react-bootstrap';
 
@@ -8,14 +7,14 @@ export interface Product {
     price: number;
 }
 
-interface CartModalProps {
+interface BasketModalProps {
     show: boolean;
     onHide: () => void;
     cart: Product[];
     removeFromCart: (id: number) => void;
 }
 
-const CartModal: React.FC<CartModalProps> = ({
+const CartModal: React.FC<BasketModalProps> = ({
                                                  show,
                                                  onHide,
                                                  cart,
@@ -54,7 +53,7 @@ const CartModal: React.FC<CartModalProps> = ({
             {cart.length > 0 && (
                 <Modal.Footer>
                     <div className="me-auto">
-                        <strong>Итого: {total} $</strong>
+                        <strong>Итого: {total.toFixed(2)} $</strong>
                     </div>
                     <Button variant="secondary" onClick={onHide}>
                         Закрыть
